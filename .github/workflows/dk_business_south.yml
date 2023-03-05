@@ -54,6 +54,8 @@ jobs:
       - name: Run test
         shell: bash
         run: |
+          java -v
+          mvn -v
           cd abc
           cd slot-checker
           mvn -B clean test -Dtest="BusinessVisaSouthTest" \
