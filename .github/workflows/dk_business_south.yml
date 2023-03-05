@@ -35,16 +35,16 @@ jobs:
           ref: main
           token: ${{ secrets.PAT }}
 
-      - name: Setup Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
+      # - name: Setup Java
+      #   uses: actions/setup-java@v1
+      #   with:
+      #     java-version: 11
 
-      - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.7.0
-        with:
-          java-version: 17
-          maven-version: '3.9.0'
+      # - name: Setup Maven
+      #   uses: s4u/setup-maven-action@v1.7.0
+      #   with:
+      #     java-version: 17
+      #     maven-version: '3.9.0'
 
       - name: Navigate to pom file
         run: |
@@ -53,7 +53,7 @@ jobs:
           ls
           cd ..
           echo "tree"
-          tree
+          tree /a
 
       - name: Run Tests
         shell: bash
