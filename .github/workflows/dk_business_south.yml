@@ -53,6 +53,7 @@ jobs:
 
       - name: Navigate to pom file
         run: |
+          ls -la abc
           echo "ls >"
           ls
           echo "cd .."
