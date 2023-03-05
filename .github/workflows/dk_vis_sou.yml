@@ -10,8 +10,8 @@ on:
   #      - .github/workflows/dk_vis_sou.yml
   workflow_dispatch:
 
-#  schedule:
-#    - cron: "0,9,19,29,39,49,59 * * * *"
+  schedule:
+    - cron: '0,9,19,29,39,49,59 * * * *'
 
 jobs:
   dk-vis-sou-bot:
