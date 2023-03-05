@@ -36,8 +36,8 @@ jobs:
           repository: dhamo-pk/slot-checker
           #${{ secrets.SOURCE_REPO }}
           ref: main
-          #token: ${{ secrets.PAT }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
+          #token: ${{ secrets.GITHUB_TOKEN }}
           path: abc/slot-checker
 
       # - name: Setup Java
