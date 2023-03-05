@@ -54,7 +54,7 @@ jobs:
       - name: Run test
         shell: bash
         run: |
-          java -v
+          java -version
           mvn -v
           cd abc
           cd slot-checker
