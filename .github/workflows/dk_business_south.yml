@@ -57,16 +57,12 @@ jobs:
           ls -la abc
           echo "ls >"
           ls
-          echo "cd .."
-          cd ..
+          echo "cd abc"
+          cd abc
           echo "ls >"
           ls
-          echo "cd .."
-          cd ..
-          echo "ls >"
-          ls
-          echo "tree"
-          tree -a
+          echo "cd slot-checker"
+          cd slot-checker
 
       - name: Run Tests
         shell: bash
