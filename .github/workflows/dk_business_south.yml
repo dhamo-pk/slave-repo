@@ -54,18 +54,8 @@ jobs:
       - name: Run test
         shell: bash
         run: |
-          ls -la abc
-          echo "ls >"
-          ls
-          echo "cd abc"
           cd abc
-          echo "ls >"
-          ls
-          echo "cd slot-checker"
           cd slot-checker
-          echo "ls >"
-          ls
-          echo ###
           mvn -B clean test -Dtest="BusinessVisaSouthTest" \
            -DAPP_URL=$APP_URL \
             -DUSERNAME=$U_N \
