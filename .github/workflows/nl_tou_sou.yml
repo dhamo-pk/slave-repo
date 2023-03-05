@@ -1,6 +1,9 @@
-name: NL_Tourist
+name: NL_Tou_Sou
 
 on:
+  push:
+    paths:
+      - '.github/workflows/nl_tou_sou.yml'
   #  pull_request:
   #    branches: [ "main" ]
   #    paths:
@@ -12,29 +15,31 @@ on:
 #    - cron: "0,9,19,29,39,49,59 * * * *"
 
 jobs:
-  dk-south-visit-tests:
+  nl-tou-sou-bot:
     runs-on: windows-latest
 
     steps:
-      - name: checkout
+      - name: checkout current
         uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
+          path: bot/slave-repo
 
-      - name: Setup Java
-        uses: actions/setup-java@v1
+      - name: checkout private
+        uses: actions/checkout@v2
         with:
-          java-version: 11
+          repository: ${{ secrets.SOURCE_REPO }}
+          ref: main
+          token: ${{ secrets.PAT }}
+          path: bot/slot-checker
 
-      - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.7.0
-        with:
-          java-version: 17
-          maven-version: '3.9.0'
-
-      - name: Run Tests
+      - name: trigger bot
         shell: bash
         run: |
+          java -version
+          mvn -v
+          cd bot
+          cd slot-checker
           mvn -B clean test -Dtest="TouristVisaTest" \  
           -DAPP_URL=$APP_URL \
           -DUSERNAME=$U_N \
@@ -46,7 +51,7 @@ jobs:
           U_N: ${{secrets.NL_UK_SOUTH_T_UN_00}}
           P_W: ${{secrets.NL_UK_SOUTH_T_PW_00}}
 
-      - name: Send email
+      - name: send email
         if: success()
         uses: dawidd6/action-send-mail@v3.7.1
         with:
@@ -56,17 +61,16 @@ jobs:
           password: ${{ secrets.FROM_EMAIL_PASSWORD }}
           subject: ${{ secrets.EMAIL_SUBJECT }}
           to: ${{ secrets.NL_UK_SOUTH_T_CC_00 }}
-          bcc: ${{ secrets.NL_UK_SOUTH_T_BCC_00 }}
+          #bcc: ${{ secrets.NL_UK_SOUTH_T_BCC_00 }}
           from: The Big D
           body: file://target/value.txt
           #${{secrets.EMAIL_BODY}}
 
-      - name: Upload target
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: target
-          retention-days: 2
-          path: |
-            ${{ github.workspace }}/target
-
+      # - name: Upload target
+      #   if: always()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: target
+      #     retention-days: 2
+      #     path: |
+      #       ${{ github.workspace }}/target

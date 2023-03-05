@@ -1,64 +1,57 @@
-name: DK_Business_South
+name: DK_Vis_Nor
 
 on:
   push:
-  #    paths:
-  #      - '.github/workflows/dk_business_south.yml'
-  #    branches:
-  #      - main
-  #      - release-*
+    paths:
+      - '.github/workflows/dk_vis_nor.yml'
   #  pull_request:
+  #    branches: [ "main" ]
   #    paths:
-  #      - .github/workflows/dk_business_south.yml
+  #      - .github/workflows/dk_vis_nor.yml
   #      - '**/pom.xml'
-  #    branches:
-  #      - main
-  #      - release-*
   workflow_dispatch:
 
 #  schedule:
 #    - cron: "0,9,19,29,39,49,59 * * * *"
 
 jobs:
-  dk-south-business-tests:
+  dk-vis-nor-bot:
     runs-on: windows-latest
 
     steps:
-      - name: checkout
+      - name: checkout current
         uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
-          path: abc/slave-repo
+          path: bot/slave-repo
 
-      - name: Checkout private repository
+      - name: checkout private
         uses: actions/checkout@v2
         with:
           repository: ${{ secrets.SOURCE_REPO }}
-          #dhamo-pk/slot-checker
           ref: main
           token: ${{ secrets.PAT }}
-          #token: ${{ secrets.GITHUB_TOKEN }}
-          path: abc/slot-checker
+          path: bot/slot-checker
 
-      - name: Run test
+      - name: trigger bot
         shell: bash
         run: |
           java -version
           mvn -v
-          cd abc
+          cd bot
           cd slot-checker
-          mvn -B clean test -Dtest="BusinessVisaSouthTest" \
-           -DAPP_URL=$APP_URL \
+          mvn -B clean test -Dtest="VisitingVisaNorthTest" \
+            -DAPP_URL=$APP_URL \
             -DUSERNAME=$U_N \
             -DPASSWORD=$P_W \
             -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
         env:
           PLAYWRIGHT_BROWSER_ARGS: --no-sandbox
           APP_URL: ${{secrets.DK_APP_URL}}
-          U_N: ${{secrets.DK_IN_SOUTH_B_UN_00}}
-          P_W: ${{secrets.DK_IN_SOUTH_B_PW_00}}
+          U_N: ${{secrets.DK_IN_NORTH_V_UN_00}}
+          P_W: ${{secrets.DK_IN_NORTH_V_PW_00}}
 
-      - name: Send email
+      - name: send email
         if: success()
         uses: dawidd6/action-send-mail@v3.7.1
         with:
@@ -67,8 +60,8 @@ jobs:
           username: ${{ secrets.FROM_EMAIL_USERNAME }}
           password: ${{ secrets.FROM_EMAIL_PASSWORD }}
           subject: ${{ secrets.EMAIL_SUBJECT }}
-          to: ${{ secrets.DK_IN_SOUTH_B_CC_00 }}
-          bcc: ${{ secrets.DK_IN_SOUTH_B_BCC_00 }}
+          to: ${{ secrets.DK_IN_NORTH_V_CC_00 }}
+          #bcc: ${{ secrets.DK_IN_NORTH_V_BCC_00 }}
           from: The Big D
           body: file://target/value.txt
           #${{secrets.EMAIL_BODY}}
