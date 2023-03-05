@@ -50,10 +50,16 @@ jobs:
 
       - name: Navigate to pom file
         run: |
+          echo "ls >"
           ls
+          echo "cd .."
           cd ..
+          echo "ls >"
           ls
+          echo "cd .."
           cd ..
+          echo "ls >"
+          ls
           echo "tree"
           tree /a
 
