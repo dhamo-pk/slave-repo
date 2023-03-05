@@ -48,6 +48,8 @@ jobs:
 
       - name: Navigate to pom file
         run: |
+          ls
+          echo "tree"
           tree
 
       - name: Run Tests
