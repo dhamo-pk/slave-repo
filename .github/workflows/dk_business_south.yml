@@ -46,6 +46,10 @@ jobs:
           java-version: 17
           maven-version: '3.9.0'
 
+      - name: Navigate to pom file
+        run: |
+          tree
+
       - name: Run Tests
         shell: bash
         run: |
