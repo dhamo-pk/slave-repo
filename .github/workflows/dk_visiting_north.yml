@@ -61,11 +61,11 @@ jobs:
           body: file://target/value.txt
           #${{secrets.EMAIL_BODY}}
 
-      - name: Upload target
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: target
-          retention-days: 2
-          path: |
-            ${{ github.workspace }}/target
+      # - name: Upload target
+      #   if: always()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: target
+      #     retention-days: 2
+      #     path: |
+      #       ${{ github.workspace }}/target
