@@ -47,8 +47,13 @@ jobs:
           maven-version: '3.9.0'
 
       - name: Navigate to pom file
+        shell: bash
+
         run: |
           ls
+          cd ..
+          ls
+          cd ..
           echo "tree"
           tree
 
