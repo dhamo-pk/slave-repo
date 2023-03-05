@@ -61,7 +61,7 @@ jobs:
           password: ${{ secrets.FROM_EMAIL_PASSWORD }}
           subject: ${{ secrets.EMAIL_SUBJECT }}
           to: ${{ secrets.DK_IN_SOUTH_V_CC_00 }}
-          #bcc: ${{ secrets.DK_IN_SOUTH_V_BCC_00 }}
+          bcc: ${{ secrets.DK_IN_SOUTH_V_BCC_00 }}
           from: The Big D
           body: file://target/value.txt
           #${{secrets.EMAIL_BODY}}
