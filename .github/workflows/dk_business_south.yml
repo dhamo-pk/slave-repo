@@ -33,23 +33,12 @@ jobs:
       - name: Checkout private repository
         uses: actions/checkout@v2
         with:
-          repository: dhamo-pk/slot-checker
-          #${{ secrets.SOURCE_REPO }}
+          repository: ${{ secrets.SOURCE_REPO }}
+          #dhamo-pk/slot-checker
           ref: main
           token: ${{ secrets.PAT }}
           #token: ${{ secrets.GITHUB_TOKEN }}
           path: abc/slot-checker
-
-      # - name: Setup Java
-      #   uses: actions/setup-java@v1
-      #   with:
-      #     java-version: 11
-
-      # - name: Setup Maven
-      #   uses: s4u/setup-maven-action@v1.7.0
-      #   with:
-      #     java-version: 17
-      #     maven-version: '3.9.0'
 
       - name: Run test
         shell: bash
