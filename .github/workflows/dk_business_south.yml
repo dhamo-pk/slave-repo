@@ -28,14 +28,17 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
+          path: abc/slave-repo
 
       - name: Checkout private repository
         uses: actions/checkout@v2
         with:
-          repository: dhamo-pk/vfs-slot-checker
+          repository: dhamo-pk/slot-checker
           #${{ secrets.SOURCE_REPO }}
           ref: main
-          token: ${{ secrets.PAT }}
+          #token: ${{ secrets.PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: abc/slot-checker
 
       # - name: Setup Java
       #   uses: actions/setup-java@v1
