@@ -1,0 +1,72 @@
+name: NL_Tourist
+
+on:
+  #  pull_request:
+  #    branches: [ "main" ]
+  #    paths:
+  #      - .github/workflows/nl_tourist.yml
+  #      - '**/pom.xml'
+  workflow_dispatch:
+
+#  schedule:
+#    - cron: "0,9,19,29,39,49,59 * * * *"
+
+jobs:
+  dk-south-visit-tests:
+    runs-on: windows-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Setup Maven
+        uses: s4u/setup-maven-action@v1.7.0
+        with:
+          java-version: 17
+          maven-version: '3.9.0'
+
+      - name: Run Tests
+        shell: bash
+        run: |
+          mvn -B clean test -Dtest="TouristVisaTest" \  
+          -DAPP_URL=$APP_URL \
+          -DUSERNAME=$U_N \
+          -DPASSWORD=$P_W \
+          -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+        env:
+          PLAYWRIGHT_BROWSER_ARGS: --no-sandbox
+          APP_URL: ${{secrets.NL_APP_URL}}
+          U_N: ${{secrets.NL_UK_SOUTH_T_UN_00}}
+          P_W: ${{secrets.NL_UK_SOUTH_T_PW_00}}
+
+      - name: Send email
+        if: success()
+        uses: dawidd6/action-send-mail@v3.7.1
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.FROM_EMAIL_USERNAME }}
+          password: ${{ secrets.FROM_EMAIL_PASSWORD }}
+          subject: ${{ secrets.EMAIL_SUBJECT }}
+          to: ${{ secrets.NL_UK_SOUTH_T_CC_00 }}
+          bcc: ${{ secrets.NL_UK_SOUTH_T_BCC_00 }}
+          from: The Big D
+          body: file://target/value.txt
+          #${{secrets.EMAIL_BODY}}
+
+      - name: Upload target
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: target
+          retention-days: 2
+          path: |
+            ${{ github.workspace }}/target
+
