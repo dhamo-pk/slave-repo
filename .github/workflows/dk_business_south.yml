@@ -63,7 +63,10 @@ jobs:
           ls
           echo "cd slot-checker"
           cd slot-checker
-
+          echo "ls >"
+          ls
+          echo ###
+          ls -la abc
       - name: Run Tests
         shell: bash
         run: |
