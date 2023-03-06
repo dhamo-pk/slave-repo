@@ -1,0 +1,75 @@
+name: WIP_FileTest
+
+on:
+  push:
+    paths:
+      - '.github/workflows/wip_fileExist.yml'
+  #  pull_request:
+  #    branches: [ "main" ]
+  #    paths:
+  #      - .github/workflows/nl_tourist.yml
+  #      - '**/pom.xml'
+  workflow_dispatch:
+
+jobs:
+  nl-tou-sou-bot:
+    runs-on: windows-latest
+
+    steps:
+      - name: checkout current
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+          path: bot/slave-repo
+
+      - name: checkout private
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ secrets.SOURCE_REPO }}
+          ref: main
+          token: ${{ secrets.PAT }}
+          path: bot/slot-checker
+
+      - name: trigger bot
+        shell: bash
+        run: |
+          java -version
+          mvn -v
+          cd bot
+          cd slot-checker
+          mvn -B -X clean test -Dtest="JunitExploreTest" \
+          IF EXIST slot-checker\target\value.txt (
+              echo File exists
+          ) ELSE (
+              echo File not found
+              exit /b 1
+          )
+        env:
+          PLAYWRIGHT_BROWSER_ARGS: --no-sandbox
+          APP_URL: ${{secrets.NL_APP_URL}}
+          U_N: ${{secrets.NL_UK_SOUTH_T_UN_00}}
+          P_W: ${{secrets.NL_UK_SOUTH_T_PW_00}}
+
+      - name: send email
+        if: success()
+        uses: dawidd6/action-send-mail@v3.7.1
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.FROM_EMAIL_USERNAME }}
+          password: ${{ secrets.FROM_EMAIL_PASSWORD }}
+          subject: ${{ secrets.EMAIL_SUBJECT }}
+          to: ${{ secrets.NL_UK_SOUTH_T_CC_00 }}
+          #bcc: ${{ secrets.NL_UK_SOUTH_T_BCC_00 }}
+          from: The Big D
+          body: file://target/value.txt
+          #${{secrets.EMAIL_BODY}}
+
+      # - name: Upload target
+      #   if: always()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: target
+      #     retention-days: 2
+      #     path: |
+      #       ${{ github.workspace }}/target
