@@ -1,0 +1,64 @@
+name: Check_Site_Up
+
+on:
+  push:
+    paths:
+      - '.github/workflows/check_site_up.yml'
+
+  workflow_dispatch:
+
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  dk-bus-sou-bot:
+    runs-on: windows-latest
+
+    steps:
+      - name: checkout current
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+          path: bot/slave-repo
+
+      - name: checkout private
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ secrets.SOURCE_REPO }}
+          ref: main
+          token: ${{ secrets.PAT }}
+          path: bot/slot-checker
+
+      - name: trigger bot
+        shell: bash
+        run: |
+          java -version
+          mvn -v
+          cd bot
+          cd slot-checker
+          mvn -B clean test -Dtest="SiteActiveTest" \
+        env:
+          PLAYWRIGHT_BROWSER_ARGS: --no-sandbox
+
+      - name: send email
+        if: success()
+        uses: dawidd6/action-send-mail@v3.7.1
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.FROM_EMAIL_USERNAME }}
+          password: ${{ secrets.FROM_EMAIL_PASSWORD }}
+          subject: 'ALERT: Site Up and Available <eom>'
+          to: ${{ secrets.DK_MODERATORS }}
+          from: The Big D
+          #body: file://target/value.txt
+          #${{secrets.EMAIL_BODY}}
+
+      # - name: Upload target
+      #   if: always()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: target
+      #     retention-days: 2
+      #     path: |
+      #       ${{ github.workspace }}/target
