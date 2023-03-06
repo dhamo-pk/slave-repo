@@ -4,9 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/dk_bus_wes.yml'
-
   workflow_dispatch:
-
   schedule:
     - cron: '0,9,19,29,39,49,59 * * * *'
 
