@@ -1,26 +1,18 @@
-name: DK_Bus_Sou
+name: WIP_FileTest
 
 on:
   push:
     paths:
-      - '.github/workflows/dk_bus_sou.yml'
-  #    branches:
-  #      - main
-  #      - release-*
+      - '.github/workflows/wip_fileExist.yml'
   #  pull_request:
+  #    branches: [ "main" ]
   #    paths:
-  #      - .github/workflows/dk_bus_sou.yml
+  #      - .github/workflows/nl_tourist.yml
   #      - '**/pom.xml'
-  #    branches:
-  #      - main
-  #      - release-*
   workflow_dispatch:
 
-  schedule:
-    - cron: '0,9,19,29,39,49,59 * * * *'
-
 jobs:
-  dk-bus-sou-bot:
+  nl-tou-sou-bot:
     runs-on: windows-latest
 
     steps:
@@ -45,11 +37,7 @@ jobs:
           mvn -v
           cd bot
           cd slot-checker
-          mvn -B clean test -Dtest="BusinessVisaSouthTest" \
-           -DAPP_URL=$APP_URL \
-            -DUSERNAME=$U_N \
-            -DPASSWORD=$P_W \
-            -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+          mvn -B clean test -Dtest="JunitExploreTest" 
           if [ -f slot-checker/target/value.txt ]; then
             echo "File exists"
           else
@@ -58,9 +46,9 @@ jobs:
           fi
         env:
           PLAYWRIGHT_BROWSER_ARGS: --no-sandbox
-          APP_URL: ${{secrets.DK_APP_URL}}
-          U_N: ${{secrets.DK_IN_SOUTH_B_UN_00}}
-          P_W: ${{secrets.DK_IN_SOUTH_B_PW_00}}
+          APP_URL: ${{secrets.NL_APP_URL}}
+          U_N: ${{secrets.NL_UK_SOUTH_T_UN_00}}
+          P_W: ${{secrets.NL_UK_SOUTH_T_PW_00}}
 
       - name: send email
         if: success()
@@ -71,8 +59,8 @@ jobs:
           username: ${{ secrets.FROM_EMAIL_USERNAME }}
           password: ${{ secrets.FROM_EMAIL_PASSWORD }}
           subject: ${{ secrets.EMAIL_SUBJECT }}
-          to: ${{ secrets.DK_IN_SOUTH_B_CC_00 }}
-          bcc: ${{ secrets.DK_IN_SOUTH_B_BCC_00 }}
+          to: ${{ secrets.NL_UK_SOUTH_T_CC_00 }}
+          #bcc: ${{ secrets.NL_UK_SOUTH_T_BCC_00 }}
           from: The Big D
           body: file://target/value.txt
           #${{secrets.EMAIL_BODY}}
