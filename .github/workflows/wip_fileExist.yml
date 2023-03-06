@@ -37,7 +37,7 @@ jobs:
           mvn -v
           cd bot
           cd slot-checker
-          mvn -B -X clean test -Dtest="JunitExploreTest" 
+          mvn -B clean test -Dtest="JunitExploreTest" 
           IF EXIST slot-checker\target\value.txt (
               echo File exists
           ) ELSE (

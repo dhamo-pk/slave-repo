@@ -50,6 +50,12 @@ jobs:
             -DUSERNAME=$U_N \
             -DPASSWORD=$P_W \
             -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+          IF EXIST slot-checker\target\value.txt (
+              echo File exists
+          ) ELSE (
+              echo Exiting with error: NO SLOTS AVAILABLE. 
+              exit /b 1
+          )
         env:
           PLAYWRIGHT_BROWSER_ARGS: --no-sandbox
           APP_URL: ${{secrets.DK_APP_URL}}
@@ -66,7 +72,7 @@ jobs:
           password: ${{ secrets.FROM_EMAIL_PASSWORD }}
           subject: ${{ secrets.EMAIL_SUBJECT }}
           to: ${{ secrets.DK_IN_SOUTH_B_CC_00 }}
-          bcc: ${{ secrets.DK_IN_SOUTH_B_BCC_00 }}
+          #bcc: ${{ secrets.DK_IN_SOUTH_B_BCC_00 }}
           from: The Big D
           body: file://target/value.txt
           #${{secrets.EMAIL_BODY}}
