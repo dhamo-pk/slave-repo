@@ -40,7 +40,8 @@ jobs:
           mvn -v
           cd bot
           cd slot-checker
-          mvn -B clean test -Dtest="TouristVisaTest" \  
+          mvn -B -X clean test \
+          -Dtest="TouristVisaTest" \  
           -DAPP_URL=$APP_URL \
           -DUSERNAME=$U_N \
           -DPASSWORD=$P_W \

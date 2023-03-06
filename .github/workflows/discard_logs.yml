@@ -1,4 +1,4 @@
-name: Delete old workflow runs
+name: Discard_logs
 on:
   push:
     paths:
