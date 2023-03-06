@@ -38,12 +38,12 @@ jobs:
           cd bot
           cd slot-checker
           mvn -B clean test -Dtest="JunitExploreTest" 
-          IF EXIST slot-checker\target\value.txt (
-              echo File exists
-          ) ELSE (
-              echo Exiting with error: NO SLOTS AVAILABLE. 
-              exit /b 1
-          )
+          if [ -f slot-checker/target/value.txt ]; then
+            echo "File exists"
+          else
+            echo "Exiting with error: NO SLOTS AVAILABLE."
+            exit 1
+          fi
         env:
           PLAYWRIGHT_BROWSER_ARGS: --no-sandbox
           APP_URL: ${{secrets.NL_APP_URL}}
