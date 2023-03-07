@@ -4,18 +4,13 @@ on:
   push:
     paths:
       - '.github/workflows/it_tou_sou.yml'
-  #  pull_request:
-  #    branches: [ "main" ]
-  #    paths:
-  #      - .github/workflows/nl_tourist.yml
-  #      - '**/pom.xml'
   workflow_dispatch:
 
   schedule:
     - cron: '0,9,19,29,39,49,59 * * * *'
 
 jobs:
-  nl-tou-sou-bot:
+  it-tou-sou-bot:
     runs-on: windows-latest
 
     steps:
@@ -40,7 +35,7 @@ jobs:
           mvn -v
           cd bot
           cd slot-checker
-          mvn -B -X clean test -Dtest="TVSTest" \
+          mvn -B clean test -Dtest="TVSTest" \
           -DAPP_URL=$APP_URL \
           -DUSERNAME=$U_N \
           -DPASSWORD=$P_W \
@@ -53,7 +48,7 @@ jobs:
           fi
         env:
           PLAYWRIGHT_BROWSER_ARGS: --no-sandbox
-          APP_URL: ${{secrets.NL_APP_URL}}
+          APP_URL: ${{secrets.IT_APP_URL}}
           U_N: ${{secrets.IT_UK_SOUTH_T_UN_00}}
           P_W: ${{secrets.IT_UK_SOUTH_T_PW_00}}
 
