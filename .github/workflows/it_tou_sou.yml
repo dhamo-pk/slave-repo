@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '.github/workflows/it_tou_sou.yml'
+      
   workflow_dispatch:
 
   schedule:
