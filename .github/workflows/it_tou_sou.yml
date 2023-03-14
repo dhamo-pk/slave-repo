@@ -65,7 +65,7 @@ jobs:
           to: ${{ secrets.NL_UK_SOUTH_T_CC_00 }}
           bcc: ${{ secrets.NL_UK_SOUTH_T_BCC_00 }}
           from: The Big D
-          body: file://target/value.txt
+          body: file://bot/slot-checker/target/value.txt
           #${{secrets.EMAIL_BODY}}
 
       # - name: Upload target
