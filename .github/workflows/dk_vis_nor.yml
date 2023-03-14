@@ -46,11 +46,7 @@ jobs:
           -DUSERNAME=$U_N \
           -DPASSWORD=$P_W \
           -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-          echo "Current working directory"
-          pwd
-          echo "Tree view starts here"
-          tree
-          echo "Tree view ends here...."
+          
           if [ -f target/value.txt ]; then
             echo "File exists"
           else
@@ -79,11 +75,4 @@ jobs:
 
           #${{secrets.EMAIL_BODY}}
 
-      - name: Upload target
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-           name: target
-           retention-days: 2
-           path: |
-             ${{ github.workspace }}/bot/slot-checker/target
+      
