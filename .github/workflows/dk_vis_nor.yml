@@ -46,7 +46,7 @@ jobs:
           -DUSERNAME=$U_N \
           -DPASSWORD=$P_W \
           -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-          if [ -f slot-checker/target/value.txt ]; then
+          if [ -f bot/slot-checker/target/value.txt ]; then
             echo "File exists"
           else
             echo "Exiting with error: NO SLOTS AVAILABLE."
@@ -80,4 +80,4 @@ jobs:
            name: target
            retention-days: 2
            path: |
-             ${{ github.workspace }}/target
+             ${{ github.workspace }}/bot/slot-checker/target
